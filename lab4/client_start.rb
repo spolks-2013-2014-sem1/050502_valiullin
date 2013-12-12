@@ -6,8 +6,8 @@ begin
 	options.parseCmd
 
 	client = TCPClient.new(options.get_port_number, options.get_host_name)
-	file = File.open(options[:filepath], "w") 
-	OobModule.getFile(file, client)
+	file = File.open(options.get_filepath, "w") 
+	OobModule.getFile(file, client.client_socket)
 
 	rescue Interrupt => e
 	  puts " Exit"
@@ -19,6 +19,5 @@ begin
 	  puts "No such file or directory"
 	ensure
 	  file.close unless file.nil? || file.closed?
-	  client.close unless client.nil? || client.closed?
-	  
+	  #client.close unless client.nil? || client.closed?
 end

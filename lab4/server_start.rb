@@ -10,7 +10,7 @@ begin
 	server = TCPServer.new(options.get_port_number, options.get_host_name)
 	file = File.open(options.get_filepath, "r") 
 	client, = server.accept
-	OobModule.sendFile(file, client)
+	OobModule.sendFile(file, server.client_socket)
 
 	rescue Interrupt => e
 	  puts " Exit"

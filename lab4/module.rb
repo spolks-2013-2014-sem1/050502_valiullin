@@ -13,9 +13,9 @@ module OobModule
       break unless reader or urgent
 
       if(io = urgent[0])
-        io.recv(1, IO::MSG_OOB)
+        io.recv(1, Socket::MSG_OOB)
         oob_counter += 1
-        puts "data: #{data_counter}"
+        puts "send oob data: #{data_counter}"
       end
       #if normal information
       if io = reader[0]
@@ -50,7 +50,7 @@ module OobModule
         if(pack_counter % 100 == 0)
           #puts "send: #{data_counter}"
           oob_counter += 1
-          io.send('*', IO::MSG_OOB)
+          io.send('*', Socket::MSG_OOB)
           sleep(0.05)
         end
       end
