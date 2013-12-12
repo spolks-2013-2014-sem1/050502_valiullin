@@ -1,4 +1,4 @@
-require "../Libs/Socket.rb"
+require "../Libs/TCPSocket.rb"
 
 class TcpChat
 
@@ -44,7 +44,7 @@ class TcpChat
   end
 
   def start
-    @server.listen
+    @server.listen(5)
     self.start_sending_thread(@server.client_socket)
     self.start_receiving_thread(@server.client_socket)
     begin

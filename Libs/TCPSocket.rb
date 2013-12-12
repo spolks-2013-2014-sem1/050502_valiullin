@@ -1,38 +1,28 @@
-require "../Libs/BasicSocket.rb"
+require "socket"
 
-class TCPSocket #< BasicSocket
-	attr_accessor :client_socket, :socket
+#class for TCPServer
+class TCPServer #< Socket
 
-  def initialize(port_number, host_name)
-    @socket = Socket.new(Socket::AF_INET, Socket::SOCK_STREAM, 0)
-    @socket.setsockopt(:SOCKET, :REUSEADDR, true)          #no more Errno::EADDRINUSE
-    @sockaddr = Socket.pack_sockaddr_in(port_number, host_name)
+  def initialize(port, host)
+    socket = Socket.new(Socket::AF_INET, Socket::SOCK_STREAM, 0)
+    socket.setsockopt(:SOL_SOCKET, :SO_REUSEADDR, true)
+    sockaddr = Socket.sockaddr_in(port, host)
+    socket.bind(sockaddr)
+    socket.listen(5)
   end
 
-  def bind
-    @socket.bind(@sockaddr)
-    @socket.listen(5)
-  end
-
-  def listen
-    self.accept
-  end
-
-  def connect(sockaddr)
-    @socket.connect(sockaddr)
-  end
-
-  def accept
-    @client_socket, client_addrinfo = @socket.accept
-    self.get_information(client_addrinfo)
-  end
-
-  def get_information (addrinfo)
-    Socket.getnameinfo(addrinfo).each { |line| p line }
-  end
-
-  def close
-    @client_socket.close
-    @socket.close
-  end
 end
+
+#class for TCP client
+class TCPClient #< Socket
+
+  def initialize(port, host)
+    socket = Socket.new(Socket::AF_INET, Socket::SOCK_STREAM, 0)
+    socket.setsockopt(:SOL_SOCKET, :SO_REUSEADDR, true)
+    sockaddr = Socket.sockaddr_in(port, host)
+    socket.connect(sockaddr)
+    return socket
+  end
+
+end
+

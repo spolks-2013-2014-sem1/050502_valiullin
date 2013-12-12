@@ -25,15 +25,15 @@ class UserOptionsParser
           @options[:filepath] = filepath
         end
 
-        opts.on("-s SERVERPORT", "Server's port number to connect. By default: nil") do |s|
-          @options[:serverport] = s
+        opts.on("-c PORT", "Server's port number to connect. By default: nil") do |s|
+          @options[:connectport] = s
         end
   	  end.parse!
   end
 
 
   def get_port_number
-    return @options[:portnumber]
+      return @options[:portnumber]
   end
 
   def get_host_name
